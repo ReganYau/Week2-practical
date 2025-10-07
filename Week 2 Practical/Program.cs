@@ -1,7 +1,20 @@
 ﻿Main();
 void Main()
 {
-    InputOption();
+    int choice;
+    do
+    {
+        choice = PrintMenu();
+        InputOption(choice);
+
+        if (choice != 0)
+        {
+            Console.WriteLine("\nPress Enter to continue...");
+            Console.ReadLine();
+        }
+    }
+    while (choice != 0);
+    Console.WriteLine("Application closed. Goodbye!");
 }
 static int PrintMenu()
 {
@@ -51,26 +64,47 @@ static int PrintMenu()
     return choice;
 }
 
-void InputOption()
+void InputOption(int choice)
 {
-    int Choice = PrintMenu();
-    switch (Choice)
+    try
+    {
+        string translation = GetMessage(choice);
+        
+        if (translation != null)
+        {
+            Console.WriteLine($"Your translation is: {translation}");
+        }
+        else if (choice == 0)
+        {
+            Console.WriteLine("Exiting application...");
+        }
+        else
+        {
+            Console.WriteLine("Invalid option. Please try again.");
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"An unexpected error occured while processing your choice: {ex.Message}");
+    }
+}
+
+string GetMessage(int option)
+{
+    switch (option)
     {
         case 1:
-            Console.WriteLine("Bonjour");
-            break;
+            return "Bonjour";
         case 2:
-            Console.WriteLine("Hola");
-            break;
+            return "Hola";
         case 3:
-            Console.WriteLine("Hallo");
-            break;
+            return "Hallo";
         case 4:
-            Console.WriteLine("Ciao");
-            break;
+            return "Ciao";
+        case 0:
+            return null;
         default:
-            Console.WriteLine("Goodbye");
-            break;
+            return null;
     }
 }
 
